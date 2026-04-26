@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-import os
 
 app = Flask(__name__)
 
@@ -13,13 +12,16 @@ def home():
 def set_temp():
     global temp
     data = request.get_json()
+
     temp = data.get('temperature', 0)
-    return jsonify({"message": "Saved"})
+
+    return jsonify({
+        "message": "Saved",
+        "temperature": temp
+    })
 
 @app.route('/get', methods=['GET'])
 def get_temp():
-    return jsonify({"temperature": temp})
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    return jsonify({
+        "temperature": temp
+    })
